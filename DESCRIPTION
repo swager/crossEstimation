@@ -1,0 +1,9 @@
+Package: crossEstimation
+Title: High-dimensional regression adjustments in randomized experiments
+Version: 1.0
+Author: Stefan Wager, Wenfei Du
+Maintainer: Stefan Wager <swager@stanford.edu>
+Description: What the package does (one paragraph)
+Depends: glmnet
+Imports: randomForest
+License: BSD
