@@ -3,7 +3,7 @@ Title: High-dimensional regression adjustments in randomized experiments
 Version: 1.0
 Author: Stefan Wager, Wenfei Du
 Maintainer: Stefan Wager <swager@stanford.edu>
-Description: What the package does (one paragraph)
+Description: The package uses a cross estimation procedure to estimate average treatment effects and confidence intervals.  The glmnet package is used for estimation of the regression adjustments.
 Depends: glmnet
 Imports: randomForest
 License: BSD
