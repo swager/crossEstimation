@@ -1,15 +1,15 @@
-\name{ate.glmnet-package}
-\alias{ate.glmnet-package}
+\name{crossEstimation-package}
+\alias{crossEstimation-package}
 \docType{package}
 \title{
-\packageTitle{ate.glmnet}
+\packageTitle{crossEstimation}
 }
 \description{
-\packageDescription{ate.glmnet}
+\packageDescription{crossEstimation}
 }
 \details{
 \tabular{ll}{
-Package: \tab ate.glmnet \cr
+Package: \tab crossEstimation \cr
 Type: \tab Package \cr
 Version: \tab 0.0 \cr
 Date: \tab 2016-12-13 \cr
@@ -17,10 +17,11 @@ Imports: \tab glmnet \cr
 }
 }
 \author{
-\packageAuthor{ate.glmnet}
+\packageAuthor{crossEstimation}
 }
 \references{
-S Wager, W Du, J Taylor, and R Tibshirani. "High-dimensional regression adjustments in randomized experiments". In: arXiv preprint arXiv:1607.06801 (2016)
+S Wager, W Du, J Taylor, and R Tibshirani. "High-dimensional regression adjustments in randomized experiments". PNAS, November 8, 2016  vol. 113  no. 45  12673–12678
+
 }
 \keyword{ package }
 \examples{

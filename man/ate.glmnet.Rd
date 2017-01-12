@@ -4,14 +4,14 @@
 Average treatment effect estimation for randomized experiments with high dimensional covariates
 }
 \description{
-Use cross estimation procedure with lasso in glmnet to estimate average treatment effects and intervals
+Use the cross estimation procedure with lasso in glmnet to estimate average treatment effects and confidence intervals
 }
 \usage{
-ate.glmnet(X, Y, W, alpha = 1, nfolds = NULL, method = c("joint", "separate"), lambda.choice = c("lambda.1se", "lambda.min"))
+ate.glmnet(X, Y, W, alpha = 1, nfolds = NULL, method = c("joint", "separate"), lambda.choice = c("lambda.1se", "lambda.min"), conf.level=0.9)
 }
 \arguments{
   \item{X}{
-Data matrix with covariates
+Data matrix with covariates, one observation per row
 }
   \item{Y}{
 Outcome vector for assigned treatment for each observation
@@ -29,8 +29,9 @@ Number of folds
 There are two methods, \code{method = "joint"} estimates coefficients from joint model and \code{method = "separate"} estimates coefficients for each treatment separately
 }
   \item{lambda.choice}{
-There are two cross validation choices, \code{lambda.choice = "lambda.1se"} uses one standard deviation rule and \code{lambda.choice = "lambda.min"} uses minimum
+There are two cross validation choices, \code{lambda.choice = "lambda.1se"} uses the one standard deviation rule and \code{lambda.choice = "lambda.min"} uses the minimum
 }
+\item{conf.level}{Confidence level for confidence level. Default 0.9}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -39,9 +40,11 @@ There are two cross validation choices, \code{lambda.choice = "lambda.1se"} uses
 Returns list containing the following
 \item{tau }{Average treatment effect estimate}
 \item{var }{Variance estimate}
+\item{conf.int }{Confidence interval for true tau}
+\item{conf.level }{Confidence level}
 }
 \references{
-S Wager, W Du, J Taylor, and R Tibshirani. "High-dimensional regression adjustments in randomized experiments". In: arXiv preprint arXiv:1607.06801 (2016).
+S Wager, W Du, J Taylor, and R Tibshirani. "High-dimensional regression adjustments in randomized experiments". PNAS, November 8, 2016  vol. 113  no. 45  12673–12678
 }
 \author{
 Stefan Wager, Wenfei Du, Jonathan Taylor, Rob Tibshirani
@@ -57,6 +60,7 @@ Stefan Wager, Wenfei Du, Jonathan Taylor, Rob Tibshirani
 }
 \examples{
   # simulation with Gaussian covariates
+set.seed(30)
   n <- 200
   p <- 500
   p0 <- p
