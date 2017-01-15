@@ -4,3 +4,4 @@
 *.RData
 *.DS_Store
 AngEv98/*.csv
+.Rproj.user
