@@ -47,17 +47,17 @@ ate.glmnet = function(X, Y, W,
   if (method == "joint") {
   
     regr.matrix = cbind(X.centered, (2 * W - 1) * X.centered)
-    regr.fit = my.cv.glmnet(regr.matrix, Y.centered, foldid = foldid, alpha = alpha, intercept = FALSE, lambda.choice = lambda.choice)
+    regr.fit = my.cv.glmnet(regr.matrix, Y.centered, foldid = foldid, alpha = alpha, intercept = FALSE, standardize = FALSE, lambda.choice = lambda.choice)
     betas.all = regr.fit$cv.betas[,-1]
-    beta.0 = betas.all[,1:pobs] + betas.all[,pobs + (1:pobs)]
-    beta.1 = betas.all[,1:pobs] - betas.all[,pobs + (1:pobs)]
+    beta.0 = betas.all[,1:pobs] - betas.all[,pobs + (1:pobs)]
+    beta.1 = betas.all[,1:pobs] + betas.all[,pobs + (1:pobs)]
    
   } else if (method == "separate") {
   	
-    fit.0 = my.cv.glmnet(X.centered[W==0,], Y.centered[W==0], foldid = foldid[W==0], alpha = alpha, intercept = FALSE, lambda.choice = lambda.choice)
+    fit.0 = my.cv.glmnet(X.centered[W==0,], Y.centered[W==0], foldid = foldid[W==0], alpha = alpha, intercept = FALSE, standardize = FALSE, lambda.choice = lambda.choice)
     beta.0 = fit.0$cv.betas[,-1]
     
-    fit.1 = my.cv.glmnet(X.centered[W==1,], Y.centered[W==1], foldid = foldid[W==1], alpha = alpha, intercept = FALSE, lambda.choice = lambda.choice)
+    fit.1 = my.cv.glmnet(X.centered[W==1,], Y.centered[W==1], foldid = foldid[W==1], alpha = alpha, intercept = FALSE, standardize = FALSE, lambda.choice = lambda.choice)
     beta.1 = fit.1$cv.betas[,-1]
 
   } else {
