@@ -94,6 +94,6 @@ function(X, Y, W,
     var.0 + var.1
   })
   var.hat = mean(var.fold) / nfolds
-    ci=c(tau.hat-qnorm(1-(1-conf.level)/2)*sqrt(var.hat),tau.hat+qnorm(1-(1-conf.level)/2)*sqrt(var.hat))
+  ci=c(tau.hat-qnorm(1-(1-conf.level)/2)*sqrt(var.hat),tau.hat+qnorm(1-(1-conf.level)/2)*sqrt(var.hat))
   list(tau=tau.hat, var=var.hat, conf.int=ci, conf.level=conf.level)
 }

@@ -20,7 +20,7 @@ Imports: \tab glmnet \cr
 \packageAuthor{crossEstimation}
 }
 \references{
-S Wager, W Du, J Taylor, and R Tibshirani. "High-dimensional regression adjustments in randomized experiments". PNAS, November 8, 2016  vol. 113  no. 45  12673–12678
+S Wager, W Du, J Taylor, and R Tibshirani. "High-dimensional regression adjustments in randomized experiments". PNAS, November 8, 2016  vol. 113  no. 45  12673-12678
 
 }
 \keyword{ package }
@@ -39,17 +39,18 @@ S Wager, W Du, J Taylor, and R Tibshirani. "High-dimensional regression adjustme
   theta0 <- c(1, rep(0, p-1))
   theta1 <- c(1, rep(0, p-1))
   tau <- ymean1 - ymean0 + sum(xmean * theta1) - sum(xmean * theta0)
-  # run 1000 times and calculate coverage
+  # run 100 times and calculate coverage
   cover <- 0
-  for (i in 1:1000) {
+  for (i in 1:100) {
     x <- matrix(rnorm(n * p, xmean, xsigma), n, p)
     T <- (runif(n) < 0.2)
-    mu <- (ymean1 + x %*% theta1) * T + (ymean0 + x %*% theta0) * (1 - T)
+    mu <- (ymean1 + x \%*\% theta1) * T + (ymean0 + x \%*\% theta0) * (1 - T)
     epsC <- rnorm(n, 0, sigma)
     epsT <- rnorm(n, 0, sigma)
     eps <- epsT * T + epsC * (1 - T)
     yobs <- mu + eps
-    res <- ate.glmnet(x, yobs, T, alpha = 1, nfolds = 10, method = "joint", lambda.choice = "lambda.min")
+    res <- ate.glmnet(x, yobs, T, alpha = 1, nfolds = 10, method = "joint", 
+	  lambda.choice = "lambda.min")
     cover <- cover + (res$conf.int[1] < tau & tau < res$conf.int[2])
   }
   cover

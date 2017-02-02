@@ -1,13 +1,14 @@
 \name{ate.glmnet}
 \alias{ate.glmnet}
 \title{
-Average treatment effect estimation for randomized experiments with high dimensional covariates
+Average treatment effect estimation for randomized experiments with high dimensional covariates using glmnet estimation
 }
 \description{
-Use the cross estimation procedure with lasso in glmnet to estimate average treatment effects and confidence intervals
+Use the cross estimation procedure with glmnet regularization to adjust covariates and estimate average treatment effects and confidence intervals
 }
 \usage{
-ate.glmnet(X, Y, W, alpha = 1, nfolds = NULL, method = c("joint", "separate"), lambda.choice = c("lambda.1se", "lambda.min"), conf.level=0.9)
+ate.glmnet(X, Y, W, alpha = 1, nfolds = NULL, method = c("joint", "separate"), 
+  lambda.choice = c("lambda.1se", "lambda.min"), conf.level=0.9)
 }
 \arguments{
   \item{X}{
@@ -20,7 +21,7 @@ Outcome vector for assigned treatment for each observation
 Treatment vector for each observation
 }
   \item{alpha}{
-Elastic net parameter
+Elastic net parameter. Default 1
 }
   \item{nfolds}{
 Number of folds
@@ -31,11 +32,11 @@ There are two methods, \code{method = "joint"} estimates coefficients from joint
   \item{lambda.choice}{
 There are two cross validation choices, \code{lambda.choice = "lambda.1se"} uses the one standard deviation rule and \code{lambda.choice = "lambda.min"} uses the minimum
 }
-\item{conf.level}{Confidence level for confidence level. Default 0.9}
+\item{conf.level}{Confidence level for intervals. Default 0.9}
 }
-\details{
+%\details{
 %%  ~~ If necessary, more details than the description above ~~
-}
+%}
 \value{
 Returns list containing the following
 \item{tau }{Average treatment effect estimate}
@@ -44,20 +45,20 @@ Returns list containing the following
 \item{conf.level }{Confidence level}
 }
 \references{
-S Wager, W Du, J Taylor, and R Tibshirani. "High-dimensional regression adjustments in randomized experiments". PNAS, November 8, 2016  vol. 113  no. 45  12673–12678
+S Wager, W Du, J Taylor, and R Tibshirani. "High-dimensional regression adjustments in randomized experiments". PNAS, November 8, 2016  vol. 113  no. 45  12673-12678
 }
 \author{
 Stefan Wager, Wenfei Du, Jonathan Taylor, Rob Tibshirani
 }
-\note{
+%\note{
 %%  ~~further notes~~
-}
+%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%\seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+%}
 \examples{
   # simulation with Gaussian covariates based on Figure 1 in reference paper
   set.seed(30)
@@ -73,22 +74,23 @@ Stefan Wager, Wenfei Du, Jonathan Taylor, Rob Tibshirani
   theta0 <- c(1, rep(0, p-1))
   theta1 <- c(1, rep(0, p-1))
   tau <- ymean1 - ymean0 + sum(xmean * theta1) - sum(xmean * theta0)
-  # run 1000 times and calculate coverage
+  # run 100 times and calculate coverage
   cover <- 0
-  for (i in 1:1000) {
+  for (i in 1:100) {
     x <- matrix(rnorm(n * p, xmean, xsigma), n, p)
     T <- (runif(n) < 0.2)
-    mu <- (ymean1 + x %*% theta1) * T + (ymean0 + x %*% theta0) * (1 - T)
+    mu <- (ymean1 + x \%*\% theta1) * T + (ymean0 + x \%*\% theta0) * (1 - T)
     epsC <- rnorm(n, 0, sigma)
     epsT <- rnorm(n, 0, sigma)
     eps <- epsT * T + epsC * (1 - T)
     yobs <- mu + eps
-    res <- ate.glmnet(x, yobs, T, alpha = 1, nfolds = 10, method = "joint", lambda.choice = "lambda.min")
+    res <- ate.glmnet(x, yobs, T, alpha = 1, nfolds = 10, method = "joint", 
+	  lambda.choice = "lambda.min")
     cover <- cover + (res$conf.int[1] < tau & tau < res$conf.int[2])
   }
   cover
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+%\keyword{ ~kwd1 }
+%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
