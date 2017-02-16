@@ -1,4 +1,4 @@
-ate.randomForest = function(X, Y, W, nodesize = 20) {
+ate.randomForest = function(X, Y, W, nodesize = 20, conf.level=.9) {
                       	
   if (prod(W %in% c(0, 1)) != 1) {                    	
     stop("Treatment assignment W must be encoded as 0-1 vector.")
@@ -37,6 +37,6 @@ ate.randomForest = function(X, Y, W, nodesize = 20) {
   tau.hat = mean((Y - yhat.bar)[W==1]) - mean((Y - yhat.bar)[W==0])
   var.hat = var((Y - yhat.bar)[W==1]) / sum(W == 1) +
     var((Y - yhat.bar)[W==0]) / sum(W == 0)
-      
-  data.frame(tau=tau.hat, var=var.hat)
+  ci=c(tau.hat-qnorm(1-(1-conf.level)/2)*sqrt(var.hat),tau.hat+qnorm(1-(1-conf.level)/2)*sqrt(var.hat))
+  list(tau=tau.hat, var=var.hat, conf.int=ci, conf.level=conf.level)
 }  

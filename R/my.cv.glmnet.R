@@ -1,5 +1,5 @@
 my.cv.glmnet <-
-  function (x, y, weights, offset = NULL, lambda = NULL, type.measure = c("mse", 
+function (x, y, weights, offset = NULL, lambda = NULL, type.measure = c("mse", 
                                                            "deviance", "class", "auc", "mae"), nfolds = 10, foldid,
                                                            lambda.choice = c("lambda.1se", "lambda.min"),
             grouped = TRUE, keep = FALSE, parallel = FALSE, ...) 
@@ -101,4 +101,3 @@ my.cv.glmnet <-
   names(obj)[length(obj)] = "cv.betas"
   obj
 }
-
