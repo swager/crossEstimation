@@ -6,8 +6,7 @@ Date: 2017-01-30
 Author: Stefan Wager, Wenfei Du
 Maintainer: Stefan Wager <swager@stanford.edu>
 Description: Use cross estimation procedure to estimate average treatment effects and confidence intervals for randomized experiments.  The glmnet and random forest packages are used for estimation of the regression adjustments.
-Depends: foreach
-Imports: glmnet, randomForest
+Imports: glmnet, foreach, randomForest
 License: BSD
 NeedsCompilation: no
 Packaged: 2017-01-09 21:33:11 UTC; tibs

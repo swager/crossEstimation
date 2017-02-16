@@ -14,10 +14,12 @@ knitr::opts_chunk$set(
 A cross estimation procedure is used to estimate average treatment effects and confidence intervals for randomized experiments.  The data is split into $K$ folds, the estimates in each fold are averaged to give $\hat{\tau}$, and an estimate of the variance of $\hat{\tau}$ is computed.  For each fold $k$ and treatments $w = 0, 1$, suppose that $\bar{Y}_w^{(k)}, \bar{X}_w^{(k)}$ are the means in that fold.  Also, suppose that $\hat{\beta}_w^{(-k)}$ are regression adjustments calculated on the other folds based on demeaned data.  Then, the average treatment effect estimate is computed with the formula 
 \[ \hat{\tau}^{(k)} = \bar{Y}_1^{(k)} - \bar{X}_1^{(k)}\hat{\beta}^{(1,-k)} + \bar{X}^{(k)}\hat{\beta}^{(1,-k)} - (\bar{Y}_0^{(k)} - \bar{X}_0^{(k)}\hat{\beta}^{(0,-k)} + \bar{X}^{(k)}\hat{\beta}^{(0,-k)}) \]
 \[ \hat{\tau} = \sum_{k=1}^K\hat{\tau}^{(k)}n^{(k)}/n \]
+
 The variance of this estimate is computed with the formula
 \[ \text{Var}(\hat{\tau}^{(k)}) = \sum_{w = 0,1}\text{Var}(Y_w^{(k)}) / n_w^{(k)} - 2\text{Cov}(Y_w^{(k)}, X_w^{(k)}\bar{\hat{\beta}}^{(-k)}) / n_w^{(k)} + \text{Var}(X_w^{(k)}\bar{\hat{\beta}}^{(-k)}) / n_w^{(k)} \]
 \[ \text{Var}(\hat{\tau})=\sum_{k=1}^K\text{Var}(\hat{\tau}^{(k)})(n^{(k)}/n)^2 \]
-The covariances and variances above are substituded with estimated values in the data to obtain an estimate of the variance of $\hat{\tau}$.  Confidence intervals are also provided under a Gaussian assumption, which holds asymptotically under certain conditions.
+The covariances and variances above are substituted with estimated values in the data to obtain an estimate of the variance of $\hat{\tau}$.  Confidence intervals are also provided under a Gaussian assumption, which holds asymptotically under certain conditions.
+
 The glmnet package is used for the estimation of regression adjustments.  The regularization parameter is chosen by cross validation, which can be done on the same $k$ folds as used for cross estimation above.  A simulated example is below:
 ```{r}
 # simulation with Gaussian covariates based on Figure 1 in reference paper
