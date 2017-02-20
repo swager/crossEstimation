@@ -15,20 +15,20 @@ ate.randomForest = function(X, Y, W, nodesize = 20, conf.level=.9) {
     rf.0 = randomForest::randomForest(X[W==0,], Y[W==0], nodesize = nodesize)
     rf.1 = randomForest::randomForest(X[W==1,], Y[W==1], nodesize = nodesize)
 
-    yhat.0[W==0] = randomForest::predict(rf.0)
-    yhat.0[W==1] = randomForest::predict(rf.0, newdata = X[W==1,])
-    yhat.1[W==1] = randomForest::predict(rf.1)
-    yhat.1[W==0] = randomForest::predict(rf.1, newdata = X[W==0,])
+    yhat.0[W==0] = stats::predict(rf.0)
+    yhat.0[W==1] = stats::predict(rf.0, newdata = X[W==1,])
+    yhat.1[W==1] = stats::predict(rf.1)
+    yhat.1[W==0] = stats::predict(rf.1, newdata = X[W==0,])
     
   } else {
   	
     rf.0 = randomForest::randomForest(X[W==0,], factor(Y)[W==0], nodesize = nodesize)
     rf.1 = randomForest::randomForest(X[W==1,], factor(Y)[W==1], nodesize = nodesize)
 
-    yhat.0[W==0] = randomForest::predict(rf.0, type = "prob")[,2]
-    yhat.0[W==1] = randomForest::predict(rf.0, newdata = X[W==1,], type = "prob")[,2]
-    yhat.1[W==1] = randomForest::predict(rf.1, type = "prob")[,2]
-    yhat.1[W==0] = randomForest::predict(rf.1, newdata = X[W==0,], type = "prob")[,2]
+    yhat.0[W==0] = stats::predict(rf.0, type = "prob")[,2]
+    yhat.0[W==1] = stats::predict(rf.0, newdata = X[W==1,], type = "prob")[,2]
+    yhat.1[W==1] = stats::predict(rf.1, type = "prob")[,2]
+    yhat.1[W==0] = stats::predict(rf.1, newdata = X[W==0,], type = "prob")[,2]
     
   }
   
