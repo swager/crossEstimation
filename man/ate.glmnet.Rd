@@ -62,8 +62,8 @@ Stefan Wager, Wenfei Du, Jonathan Taylor, Rob Tibshirani
 \examples{
   # simulation with Gaussian covariates based on Figure 1 in reference paper
   set.seed(30)
-  n <- 200
-  p <- 500
+  n <- 50
+  p <- 100
   xmean <- 1
   xsigma <- 1
   sigma <- .1
@@ -74,9 +74,9 @@ Stefan Wager, Wenfei Du, Jonathan Taylor, Rob Tibshirani
   theta0 <- c(1, rep(0, p-1))
   theta1 <- c(1, rep(0, p-1))
   tau <- ymean1 - ymean0 + sum(xmean * theta1) - sum(xmean * theta0)
-  # run 100 times and calculate coverage
+  # run loop to calculate coverage
   cover <- 0
-  for (i in 1:100) {
+  for (i in 1:5) {
     x <- matrix(rnorm(n * p, xmean, xsigma), n, p)
     T <- (runif(n) < 0.2)
     mu <- (ymean1 + x \%*\% theta1) * T + (ymean0 + x \%*\% theta0) * (1 - T)
