@@ -71,28 +71,15 @@ function (x, y, weights, offset = NULL, lambda = NULL, type.measure = c("mse",
                weights = weights[!which], ...)
     }
   }
-  fun = paste("cv", class(glmnet.object)[[1]], sep = ".")
-  lambda = glmnet.object$lambda
-  cvstuff = do.call(fun, list(outlist, lambda, x, y, weights, 
-    offset, foldid, type.measure, grouped, keep))
-  cvm = cvstuff$cvm
-  cvsd = cvstuff$cvsd
-  nas=is.na(cvsd)
-  if(any(nas)){
-    lambda=lambda[!nas]
-    cvm=cvm[!nas]
-    cvsd=cvsd[!nas]
-    nz=nz[!nas]
-  }
-  cvname = cvstuff$name
-  out = list(lambda = lambda, cvm = cvm, cvsd = cvsd, cvup = cvm + 
-    cvsd, cvlo = cvm - cvsd, nzero = nz, name = cvname, glmnet.fit = glmnet.object)
-  if (keep) 
-    out = c(out, list(fit.preval = cvstuff$fit.preval, foldid = foldid))
-  lamin=if(cvname=="AUC")getmin(lambda,-cvm,cvsd)
-  else getmin(lambda, cvm, cvsd)
-  obj = c(out, as.list(lamin))
-  class(obj) = "cv.glmnet"
+  # Choose lambda with the exported cv.glmnet, on the same folds. Earlier
+  # versions called the glmnet internals cv.elnet() and getmin(), which
+  # no longer exist in current releases of glmnet.
+  cv.args = list(x = x, y = y, weights = weights, offset = offset,
+                 lambda = glmnet.object$lambda, foldid = foldid,
+                 grouped = grouped, keep = keep, ...)
+  if (type.measure != "default")
+    cv.args$type.measure = type.measure
+  obj = do.call(glmnet::cv.glmnet, cv.args)
   
   lambda.opt = as.numeric(obj[lambda.choice])
   cv.betas.list = lapply(outlist, function(elem) coef(elem, s = lambda.opt))
